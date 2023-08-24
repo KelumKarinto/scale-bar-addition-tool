@@ -29,4 +29,4 @@ pip install pillow opencv-python numpy
 
 ## Customization
 
-If needed, you can also adjust the scale bar's position, thickness, font size, and image size in the code.
+If needed, you can also adjust the scale bar's position, thickness, font size, image size, image format in the code.
