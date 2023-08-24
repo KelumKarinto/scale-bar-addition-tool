@@ -3,23 +3,30 @@ import cv2
 import numpy as np
 import argparse
 import os
+import sys
 
-# OLYMPUS IX71
+# OLYMPUS IX71 scopes
 # Constants
 scale_pixel_4X_1X_100_um = 53
 scale_pixel_10X_1X_100_um = 132
 scale_pixel_40X_1X_100_um = 540
-scale_bar_number_location_x_offset = 60
+
+scale_bar_location_x_offset = 60
+scale_bar_location_y_offset = 80
 scale_bar_font_size = 45
+scale_bar_thickness = 30
+scale_bar_color = (255, 255, 255)
 
 
-def add_scale_bar(image_path, scope_type):
+def add_scale_bar(image_path, scope_type) -> None:
+    """Add a scale bar to an image based on the type of scope."""
+
     # Check the file extension
     if not image_path.endswith(".tif"):
         print("The image must be in .tif format. Please provide a valid image.")
         return
 
-    # Read the image
+    # Read the image including the alpha channel
     image = cv2.imread(image_path, -1)
 
     # Check the image size
@@ -53,17 +60,16 @@ def add_scale_bar(image_path, scope_type):
         return
 
     # Define the position and thickness of the scale bar
-    position = (image.shape[1] - scale_bar_size - 40,
-                image.shape[0] - scale_bar_number_location_x_offset)
-    thickness = 30
+    position = (image.shape[1] - scale_bar_size - scale_bar_location_x_offset,
+                image.shape[0] - scale_bar_location_y_offset)
 
     # Draw the scale bar using a rectangle
     cv2.rectangle(
         image,
         position,
-        (position[0] + scale_bar_size, position[1] + thickness),
-        (255, 255, 255),
-        -1,
+        (position[0] + scale_bar_size, position[1] + scale_bar_thickness),
+        color=scale_bar_color,
+        thickness=-1,
     )
 
     # Convert from BGR to RGB and to PIL
@@ -71,7 +77,15 @@ def add_scale_bar(image_path, scope_type):
     pil_image = Image.fromarray(image)
 
     # Load a platform-independent font
-    font_path = os.path.join(os.path.dirname(__file__), "Arial.ttf")
+    if sys.platform == "darwin":  # MacOS
+        font_path = os.path.join(os.path.dirname(__file__), "Arial.ttf")
+    elif sys.platform == "win32":  # Windows
+        font_path = "arial.ttf"
+    elif sys.platform.startswith('linux'):  # Linux
+        font_path = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
+    else:
+        print("Unsupported operating system. Please run this script on MacOS, Windows, or Linux.")
+        return
     font = ImageFont.truetype(font_path, scale_bar_font_size)
 
     # Draw non-ascii text onto image
@@ -82,7 +96,7 @@ def add_scale_bar(image_path, scope_type):
     text_position = (position[0] + (scale_bar_size -
                      text_width) // 2, position[1] - 60)
 
-    draw.text(text_position, label, font=font, fill=(255, 255, 255))
+    draw.text(text_position, label, font=font, fill=scale_bar_color)
 
     # Convert back to Numpy array and switch back from RGB to BGR
     image = np.asarray(pil_image)
