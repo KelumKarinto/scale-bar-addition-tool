@@ -9,6 +9,7 @@ import os
 scale_pixel_4X_1X_100_um = 53
 scale_pixel_10X_1X_100_um = 132
 scale_pixel_40X_1X_100_um = 540
+scale_bar_number_location = 60
 scale_bar_font_size = 45
 
 
@@ -52,7 +53,8 @@ def add_scale_bar(image_path, scope_type):
         return
 
     # Define the position and thickness of the scale bar
-    position = (image.shape[1] - scale_bar_size - 40, image.shape[0] - 60)
+    position = (image.shape[1] - scale_bar_size - 40,
+                image.shape[0] - scale_bar_number_location)
     thickness = 30
 
     # Draw the scale bar using a rectangle
@@ -77,7 +79,8 @@ def add_scale_bar(image_path, scope_type):
 
     # Calculate text width to center it
     text_width = draw.textlength(label, font=font)
-    text_position = (position[0] + (scale_bar_size - text_width) // 2, position[1] - 60)
+    text_position = (position[0] + (scale_bar_size -
+                     text_width) // 2, position[1] - 60)
 
     draw.text(text_position, label, font=font, fill=(255, 255, 255))
 
