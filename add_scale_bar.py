@@ -4,6 +4,7 @@ import numpy as np
 import argparse
 import os
 import sys
+import re
 
 # OLYMPUS IX71 scopes
 # Constants
@@ -18,8 +19,21 @@ scale_bar_thickness = 30
 scale_bar_color = (255, 255, 255)
 
 
+def detect_scope_type_from_filename(image_path: str) -> str:
+    """Detect the scope type from the filename."""
+    # Define a pattern for the scope type in the filename
+    pattern = r'4X_1(?:\.6)?X|10X_1(?:\.6)?X|40X_1(?:\.6)?X'
+    match = re.search(pattern, image_path, flags=re.IGNORECASE)
+    return match.group() if match else ""
+
+
 def add_scale_bar(image_path, scope_type) -> None:
     """Add a scale bar to an image based on the type of scope."""
+
+    # Check if the image exists
+    if not os.path.exists(image_path):
+        print("The image does not exist. Please provide a valid image.")
+        return
 
     # Check the file extension
     if not image_path.endswith(".tif"):
@@ -33,6 +47,12 @@ def add_scale_bar(image_path, scope_type) -> None:
     if image is None or image.shape[0] != 1440 or image.shape[1] != 1920:
         print("The image must be 1920x1440 in size. Please provide a valid image.")
         return
+
+    if not scope_type:
+        scope_type = detect_scope_type_from_filename(image_path)
+        if not scope_type:
+            print("Failed to detect scope type from filename. Please add magnification to the filename or use the proper command-line argument.")
+            return
 
     # Define the scale bar size based on the scope_type
     scale_bar_size = 0
@@ -114,7 +134,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("image_path", type=str, help="Path to the .tif image.")
     parser.add_argument(
-        "scope_type", type=str, help="Type of scope (4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X). Check calibration of scopes for OLYMPUS IX71."
+        "scope_type", type=str, nargs="?", default=None, help="Optional. Type of scope (4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X). Check calibration of scopes for OLYMPUS IX71. If omitted, will try to detect from filename."
     )
 
     args = parser.parse_args()
