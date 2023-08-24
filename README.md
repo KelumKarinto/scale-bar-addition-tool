@@ -11,22 +11,40 @@ Command example:
 python add_scale_bar.py image_path.tif 10X_1.6X
 ```
 
+However, if the target image filename contains the scope type (e.g., 10X_1.6X), it will automatically detect it, and no scope type argument is required.
+
 ## Constants
 
-The constants at the beginning of the script (`scale_pixel_4X_1X_100_um`, `scale_pixel_10X_1X_100_um`, `scale_pixel_40X_1X_100_um`) are specific to the OLYMPUS IX71 microscope. You must adjust these values if you are working with a different microscope. Make sure to calibrate and find the correct values for the specific magnification levels.
+The constants at the beginning of the script (`scale_pixel_4X_1X_100_um`, `scale_pixel_10X_1X_100_um`, `scale_pixel_40X_1X_100_um`) are specific to the OLYMPUS IX71 microscope. You must adjust these values if you are working with a different microscope. Calibrate and find the correct values for the specific magnification levels.
+
+## Installation
+
+1. **Clone the repository**:
+
+   ```
+   git clone https://github.com/KORINZ/scale-bar-addition-tool.git
+   ```
+
+2. **Navigate to the directory**:
+
+   ```
+   cd scale-bar-addition-tool
+   ```
+
+3. **Install the requirements**:
+
+   ```
+   pip install -r requirements.txt
+   ```
 
 ## Requirements
 
-The script requires the following Python libraries:
-- PIL
-- OpenCV
-- NumPy
+The script requires the following Python libraries, which can be installed using the `requirements.txt` file:
 
-You can install these using pip:
-```
-pip install pillow opencv-python numpy
-```
+- PIL (Pillow)
+- OpenCV (opencv-python)
+- NumPy
 
 ## Customization
 
-If needed, you can also adjust the scale bar's position, thickness, font size, image size, image format in the code.
+You can adjust the scale bar's position, thickness, font size, image size, and image format in the code if needed. Consult the code comments for further guidance on these adjustments.
