@@ -76,7 +76,7 @@ def add_scale_bar(image_path, scope_type) -> None:
         scale_bar_size = int(scale_pixel_40X_1X_100_um * 1.6 * 0.3)
         label = "30 μm"
     else:
-        print("Invalid scope type")
+        print("Invalid scope type. Please use 4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X, 40X_1X, or 40X_1.6X.")
         return
 
     # Define the position and thickness of the scale bar
@@ -134,7 +134,7 @@ if __name__ == "__main__":
     )
     parser.add_argument("image_path", type=str, help="Path to the .tif image.")
     parser.add_argument(
-        "scope_type", type=str, nargs="?", default=None, help="Optional. Type of scope (4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X). Check calibration of scopes for OLYMPUS IX71. If omitted, will try to detect from filename."
+        "scope_type", type=str, nargs="?", default=None, help="Optional. Type of scope (4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X, 40X_1X, 40X_1.6X). Check calibration of scopes for OLYMPUS IX71. If omitted, will try to detect from filename."
     )
 
     args = parser.parse_args()
