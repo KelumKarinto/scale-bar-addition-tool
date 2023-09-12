@@ -7,7 +7,7 @@ import sys
 import re
 
 # OLYMPUS IX71 scopes
-# Constants
+# Constants from the calibration of the scopes
 scale_pixel_4X_1X_100_um = 53
 scale_pixel_10X_1X_100_um = 132
 scale_pixel_40X_1X_100_um = 540
