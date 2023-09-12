@@ -2,6 +2,8 @@
 
 This tool allows you to add a scale bar to microscope images in the `.tif` format (1920x1440). It is designed to work with the OLYMPUS IX71 microscope but can be adjusted to work with other models.
 
+![10X_1 6X_scaled](https://github.com/KORINZ/scale-bar-addition-tool/assets/111611023/43ef5d9a-9e1d-4ace-82bb-b52bb435b9b9)
+
 ## Usage
 
 To run the script, you must provide the path to the image and the type of scope. Available types include `4X_1X`, `4X_1.6X`, `10X_1X`, `10X_1.6X`, `40X_1X`, `40X_1.6X`. Check the calibrations of scopes for OLYMPUS IX71.
