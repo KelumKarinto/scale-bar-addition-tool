@@ -9,9 +9,10 @@ This tool allows you to add a scale bar to microscope images in the `.tif` forma
 To run the script, you must provide the path to the image and the type of scope. Available types include `4X_1X`, `4X_1.6X`, `10X_1X`, `10X_1.6X`, `40X_1X`, `40X_1.6X`. Check the calibrations of scopes for OLYMPUS IX71.
 
 Command example:
-```
-python add_scale_bar.py image_path.tif 10X_1.6X
-```
+
+   ```shell
+   python add_scale_bar.py image_path.tif 10X_1.6X
+   ```
 
 However, if the target image filename contains the scope type (e.g., 10X_1.6X), it will automatically detect it, and no scope type argument is required.
 
@@ -23,19 +24,19 @@ The constants at the beginning of the script (`scale_pixel_4X_1X_100_um`, `scale
 
 1. **Clone the repository**:
 
-   ```
+   ```shell
    git clone https://github.com/KORINZ/scale-bar-addition-tool.git
    ```
 
 2. **Navigate to the directory**:
 
-   ```
+   ```shell
    cd scale-bar-addition-tool
    ```
 
 3. **Install the requirements**:
 
-   ```
+   ```shell
    pip install -r requirements.txt
    ```
 
