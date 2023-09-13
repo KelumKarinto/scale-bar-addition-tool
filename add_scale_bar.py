@@ -22,7 +22,7 @@ scale_bar_color = (255, 255, 255)
 def detect_scope_type_from_filename(image_path: str) -> str:
     """Detect the scope type from the filename."""
     # Define a pattern for the scope type in the filename
-    pattern = r'4X_1(?:\.6)?X|10X_1(?:\.6)?X|40X_1(?:\.6)?X'
+    pattern = r"4X_1(?:\.6)?X|10X_1(?:\.6)?X|40X_1(?:\.6)?X"
     match = re.search(pattern, image_path, flags=re.IGNORECASE)
     return match.group() if match else ""
 
@@ -51,7 +51,9 @@ def add_scale_bar(image_path, scope_type) -> None:
     if not scope_type:
         scope_type = detect_scope_type_from_filename(image_path)
         if not scope_type:
-            print("Failed to detect scope type from filename. Please add magnification to the filename or use the proper command-line argument.")
+            print(
+                "Failed to detect scope type from filename. Please add magnification to the filename or use the proper command-line argument."
+            )
             return
 
     # Define the scale bar size based on the scope_type
@@ -76,12 +78,16 @@ def add_scale_bar(image_path, scope_type) -> None:
         scale_bar_size = int(scale_pixel_40X_1X_100_um * 1.6 * 0.3)
         label = "30 μm"
     else:
-        print("Invalid scope type. Please use 4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X, 40X_1X, or 40X_1.6X.")
+        print(
+            "Invalid scope type. Please use 4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X, 40X_1X, or 40X_1.6X."
+        )
         return
 
     # Define the position and thickness of the scale bar
-    position = (image.shape[1] - scale_bar_size - scale_bar_location_x_offset,
-                image.shape[0] - scale_bar_location_y_offset)
+    position = (
+        image.shape[1] - scale_bar_size - scale_bar_location_x_offset,
+        image.shape[0] - scale_bar_location_y_offset,
+    )
 
     # Draw the scale bar using a rectangle
     cv2.rectangle(
@@ -101,10 +107,12 @@ def add_scale_bar(image_path, scope_type) -> None:
         font_path = os.path.join(os.path.dirname(__file__), "Arial.ttf")
     elif sys.platform == "win32":  # Windows
         font_path = "arial.ttf"
-    elif sys.platform.startswith('linux'):  # Linux
+    elif sys.platform.startswith("linux"):  # Linux
         font_path = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
     else:
-        print("Unsupported operating system. Please run this script on MacOS, Windows, or Linux.")
+        print(
+            "Unsupported operating system. Please run this script on MacOS, Windows, or Linux."
+        )
         return
     font = ImageFont.truetype(font_path, scale_bar_font_size)
 
@@ -113,8 +121,7 @@ def add_scale_bar(image_path, scope_type) -> None:
 
     # Calculate text width to center it
     text_width = draw.textlength(label, font=font)
-    text_position = (position[0] + (scale_bar_size -
-                     text_width) // 2, position[1] - 60)
+    text_position = (position[0] + (scale_bar_size - text_width) // 2, position[1] - 60)
 
     draw.text(text_position, label, font=font, fill=scale_bar_color)
 
@@ -134,7 +141,11 @@ if __name__ == "__main__":
     )
     parser.add_argument("image_path", type=str, help="Path to the .tif image.")
     parser.add_argument(
-        "scope_type", type=str, nargs="?", default=None, help="Optional. Type of scope (4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X, 40X_1X, 40X_1.6X). Check calibration of scopes for OLYMPUS IX71. If omitted, will try to detect from filename."
+        "scope_type",
+        type=str,
+        nargs="?",
+        default=None,
+        help="Optional. Type of scope (4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X, 40X_1X, 40X_1.6X). Check calibration of scopes for OLYMPUS IX71. If omitted, will try to detect from filename.",
     )
 
     args = parser.parse_args()
