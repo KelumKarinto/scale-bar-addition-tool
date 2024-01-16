@@ -51,3 +51,7 @@ The script requires the following Python libraries, which can be installed using
 ## Customization
 
 You can adjust the scale bar's position, thickness, font size, image size, and image format in the code if needed. Consult the code comments for further guidance on these adjustments.
+
+## Updates
+
+- Added support for BZ-9000 and APX100 microscopes
