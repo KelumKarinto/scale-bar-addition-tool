@@ -8,6 +8,8 @@ import re
 import glob
 
 # OLYMPUS IX71 scopes
+DISPLAY_SCALE_NUMBER = True
+
 # Constants from the calibration of the scopes
 scale_pixel_4X_1X_100_um = 53
 scale_pixel_10X_1X_100_um = 132
@@ -23,7 +25,8 @@ scale_bar_color = (255, 255, 255)
 def process_directory(directory_path, scope_type=None):
     """Process all .tif images in the given directory."""
     for image_file in glob.glob(os.path.join(directory_path, "*.tif")):
-        add_scale_bar(image_file, scope_type)
+        if not image_file.endswith("_scaled.tif"):
+            add_scale_bar(image_file, scope_type)
 
 
 def detect_scope_type_from_filename(image_path: str) -> str:
@@ -89,6 +92,9 @@ def add_scale_bar(image_path, scope_type) -> None:
             "Invalid scope type. Please use 4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X, 40X_1X, or 40X_1.6X."
         )
         return
+
+    if not DISPLAY_SCALE_NUMBER:
+        label = ""
 
     # Define the position and thickness of the scale bar
     position = (
