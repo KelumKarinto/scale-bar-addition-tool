@@ -18,6 +18,7 @@ scale_pixel_40X_1X_100_um = 540
 scale_bar_location_x_offset = 60
 scale_bar_location_y_offset = 80
 scale_bar_font_size = 45
+text_position_y_offset = 60
 scale_bar_thickness = 30
 scale_bar_color = (255, 255, 255)
 
@@ -134,7 +135,10 @@ def add_scale_bar(image_path, scope_type) -> None:
 
     # Calculate text width to center it
     text_width = draw.textlength(label, font=font)
-    text_position = (position[0] + (scale_bar_size - text_width) // 2, position[1] - 60)
+    text_position = (
+        position[0] + (scale_bar_size - text_width) // 2,
+        position[1] - text_position_y_offset,
+    )
 
     draw.text(text_position, label, font=font, fill=scale_bar_color)
 
