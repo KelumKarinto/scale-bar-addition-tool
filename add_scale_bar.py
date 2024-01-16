@@ -5,6 +5,7 @@ import argparse
 import os
 import sys
 import re
+import glob
 
 # OLYMPUS IX71 scopes
 # Constants from the calibration of the scopes
@@ -17,6 +18,12 @@ scale_bar_location_y_offset = 80
 scale_bar_font_size = 45
 scale_bar_thickness = 30
 scale_bar_color = (255, 255, 255)
+
+
+def process_directory(directory_path, scope_type=None):
+    """Process all .tif images in the given directory."""
+    for image_file in glob.glob(os.path.join(directory_path, "*.tif")):
+        add_scale_bar(image_file, scope_type)
 
 
 def detect_scope_type_from_filename(image_path: str) -> str:
@@ -137,16 +144,27 @@ def add_scale_bar(image_path, scope_type) -> None:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Add a scale bar to an image based on the type of scope."
+        description="Add a scale bar to an image or all images in a directory based on the type of scope."
     )
-    parser.add_argument("image_path", type=str, help="Path to the .tif image.")
+    parser.add_argument(
+        "path",
+        type=str,
+        help="Path to the .tif image or directory containing .tif images.",
+    )
     parser.add_argument(
         "scope_type",
         type=str,
         nargs="?",
         default=None,
-        help="Optional. Type of scope (4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X, 40X_1X, 40X_1.6X). Check calibration of scopes for OLYMPUS IX71. If omitted, will try to detect from filename.",
+        help="Optional. Type of scope (4X_1X, 4X_1.6X, 10X_1X, 10X_1.6X, 40X_1X, 40X_1.6X). If omitted, will try to detect from filename.",
     )
 
     args = parser.parse_args()
-    add_scale_bar(args.image_path, args.scope_type)
+
+    # Check if the path is a directory or a file
+    if os.path.isdir(args.path):
+        process_directory(args.path, args.scope_type)
+    elif os.path.isfile(args.path):
+        add_scale_bar(args.path, args.scope_type)
+    else:
+        print("The provided path does not exist or is not a valid image or directory.")
