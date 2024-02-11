@@ -7,7 +7,7 @@ import sys
 import re
 import glob
 
-# OLYMPUS APX100 scopes
+# Keyence BZ-9000
 DISPLAY_SCALE_NUMBER = True
 
 # Constants from the calibration of the scopes
