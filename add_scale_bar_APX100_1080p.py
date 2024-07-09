@@ -20,7 +20,7 @@ scale_bar_location_y_offset = 45
 scale_bar_font_size = 30
 text_position_y_offset = 40
 scale_bar_thickness = 15
-scale_bar_color = (255, 255, 255)
+scale_bar_color = (0, 0, 0)
 
 
 def process_directory(directory_path, scope_type=None):
